@@ -1,3 +1,6 @@
+/**
+ * Les objets instances de la classe Camion represente
+ */
 
 public class Camion extends Thread{
 	
@@ -28,6 +31,7 @@ public class Camion extends Thread{
 	void dechargerVelo(int t) {
 		veloTransports -= t;
 	}
+
 	 @Override
 	  public void run() {
 		 for(int i = 0; i<= this.sites.length; i++) {

@@ -1,4 +1,8 @@
-//Create Cliente
+/**
+ * Les objets instances de la classe Cliente representent des clients.
+ * Le fonctionnement est le suivant :
+ */
+
 public class Client extends Thread {
 	private Site site_départ, site_arriver;
 
