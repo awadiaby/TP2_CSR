@@ -1,4 +1,4 @@
-
+//Create Cliente
 public class Client extends Thread {
 	private Site site_départ, site_arriver;
 
