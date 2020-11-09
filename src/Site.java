@@ -60,7 +60,7 @@ class Site {
 		}
 		compterVelo++;
 		notify();
-		System.out.println("Site  Numéro   "  +Site.this.num +    "Velos:" + Site.this.compterVelo+  "/"  +Site.this.stock_Max );
+		System.out.println("Site   Numéro   "  +Site.this.num +    "Velos:" + Site.this.compterVelo+  "/"  +Site.this.stock_Max );
 	}
 
 	/**

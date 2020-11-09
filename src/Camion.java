@@ -63,7 +63,7 @@ public class Camion extends Thread{
 		Site2.use();
 		Site[] sites1 ={Site1,Site2};
 		Camion camion1 = new Camion(sites1);
-		camion1.chargerVelo(3);
+		camion1.chargerVelo(2);
 		System.out.println("Velos dans le camion: " + camion1.getVeloTransportes());
 
 
