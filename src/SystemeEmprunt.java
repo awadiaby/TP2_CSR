@@ -19,8 +19,10 @@ class SystemeEmprunt {
 	SystemeEmprunt() {
 
 		/* Instanciation des sites */
-		for(int i = 0; i < NB_SITES; i++)
+		for(int i = 0; i < NB_SITES; i++) {
 			this.sites[i] = new Site(i);
+			
+		}
 
 		Random r = new Random();
 		/* Instanciation des clients */

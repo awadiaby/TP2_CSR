@@ -22,7 +22,7 @@ class Site {
 		this.compterVelo = STOCK_INIT;
 		this.stock_Max = STOCK_MAX;
 		this.num = i;
-		System.out.println("Site " + Thread.currentThread().getName()+ " N°"+Site.this.num +"Velos:"+ Site.this.compterVelo+"/" +Site.this.stock_Max);
+		System.out.println("Site " + Thread.currentThread().getName()+ " N° "+Site.this.num +" Velos: "+ Site.this.compterVelo+"/" +Site.this.stock_Max);
 	}
 
 
@@ -69,20 +69,25 @@ class Site {
 	synchronized void equilibrate(Camion camion) {
 		System.out.println("Compter Velo"+ compterVelo);
 		if(compterVelo > BORNE_SUP) {
-			//int veloExedentaire = compterVelo - BORNE_SUP; //Awi ,Ici, je pense que il faut monter au bus comptervelo - Stock Initial
+
 			int veloExedentaire = compterVelo - STOCK_INIT ;
 			camion.chargerVelo(veloExedentaire);
 			compterVelo = STOCK_INIT;
+
 		} else if(compterVelo < BORNE_INF) {
-			//int veloDecharges = BORNE_INF - compterVelo; //Awi ,Ici, je pense que il faut monter au bus comtervelo - Stock Initial
-			// getVeloTransporters : le nombre de vélo contenu dans le canion
+
 			int veloDecharges = STOCK_INIT - compterVelo;
-			if(camion.getVeloTransportes() >= veloDecharges ) {
-				camion.dechargerVelo(veloDecharges);
-				compterVelo = STOCK_INIT;
+			if(camion.getVeloTransportes()<veloDecharges){
+				compterVelo = camion.getVeloTransportes();
+				camion.dechargerVelo(camion.getVeloTransportes());
+
 			}
+			//if(camion.getVeloTransportes() >= veloDecharges ) {
+			//	camion.dechargerVelo(veloDecharges);
+			//	compterVelo = STOCK_INIT;
+			//}
 		}
-		System.out.println("Equilibrate Site " + Thread.currentThread().getName()+ " site Numéro " +Site.this.num +  " Velos:"+ Site.this.compterVelo+"/" +Site.this.stock_Max );
+		System.out.println("Equilibrate Site " + Thread.currentThread().getName()+ " Site Numéro " +Site.this.num +  " Velos: "+ Site.this.compterVelo+"/" +Site.this.stock_Max );
 	}
 
 
