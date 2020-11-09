@@ -5,7 +5,6 @@
 public class Camion extends Thread{
 	
 	private Site[] sites;
-//	private int taille;
 	private int veloTransports = 0;
 
 	public Camion(Site[] sites) {
@@ -15,10 +14,6 @@ public class Camion extends Thread{
 		// TODO Auto-generated constructor stub
 	}
 	
-//	int getTaille() { return taille; }
-	//void setTaille(int t) {
-	//	taille = t;
-	//}
 
 	/**
 	 * Quantité des vélos au camion
@@ -56,9 +51,7 @@ public class Camion extends Thread{
 	    this.start();
 	  }
 	 
-	/* public int compteBike() {
-		 // return this.
-	 } */
+	
 
 	static public void main(String[] args) {
 		Site Site1 = new Site(1);
@@ -70,12 +63,12 @@ public class Camion extends Thread{
 		Site2.use();
 		Site[] sites1 ={Site1,Site2};
 		Camion camion1 = new Camion(sites1);
-		camion1.chargerVelo(9);
-		System.out.println("Velos dans le camion: "+ camion1.getVeloTransportes());
+		camion1.chargerVelo(3);
+		System.out.println("Velos dans le camion: " + camion1.getVeloTransportes());
 
 
         sites1[1].equilibrate(camion1);
-		System.out.println("Velos dans le camion:"+ camion1.getVeloTransportes());
+		System.out.println("Velos dans le camion:" + camion1.getVeloTransportes());
 
 
 

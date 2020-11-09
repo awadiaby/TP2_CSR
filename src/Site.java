@@ -60,7 +60,7 @@ class Site {
 		}
 		compterVelo++;
 		notify();
-		System.out.println("Site " + Thread.currentThread().getName()+ " N°"+Site.this.num +"Velos:"+ Site.this.compterVelo+"/" +Site.this.stock_Max );
+		System.out.println("Site  Numéro   "  +Site.this.num +    "Velos:" + Site.this.compterVelo+  "/"  +Site.this.stock_Max );
 	}
 
 	/**
@@ -82,7 +82,7 @@ class Site {
 				compterVelo = STOCK_INIT;
 			}
 		}
-		System.out.println("Equilibrate Site " + Thread.currentThread().getName()+ " N°"+Site.this.num +"Velos:"+ Site.this.compterVelo+"/" +Site.this.stock_Max );
+		System.out.println("Equilibrate Site " + Thread.currentThread().getName()+ " site Numéro " +Site.this.num +  " Velos:"+ Site.this.compterVelo+"/" +Site.this.stock_Max );
 	}
 
 
