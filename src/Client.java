@@ -29,7 +29,7 @@ public class Client extends Thread {
 		
 		 emprunter(site_depart);
 		 try {
-			Thread.sleep(10);
+			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			System.out.println("Le client termine de roulé");
 			
