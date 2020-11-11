@@ -11,7 +11,7 @@ class SystemeEmprunt {
 
 	private Site[] sites = new Site[NB_SITES];
 	private Client[] clients = new Client[MAX_CLIENTS];
-	private Camion camion = null;
+	private  Camion camion = null;
 
 	private int nbClients = 0;
 
@@ -43,8 +43,20 @@ class SystemeEmprunt {
 	/* Point d'entree du programme */
 
 	public static void main(String[] args) {
-		new SystemeEmprunt();
+		
+		var system = new SystemeEmprunt();
+		system.camion.start();
+		
+		for (Client client:system.clients) {
+			client.start();
+			try {
+				client.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 
-} // class SystemeEmprunt
+} 
