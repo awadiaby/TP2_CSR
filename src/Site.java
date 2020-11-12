@@ -6,28 +6,37 @@
 class Site {
 
 	/**
-	 * Constantes associ�es au site
+	 * Constantes associées au site
 	 */
 
 	static final int STOCK_INIT = 5;
 	static final int STOCK_MAX = 10;
 	static final int BORNE_SUP = 8;
 	static final int BORNE_INF = 2;
-	private int compterVelo = STOCK_INIT; // Quantit� de Velos
-	private int num;
+	private int availableBike = 0;
+	private int compterVelo = STOCK_INIT; //Quantité de Velos dans site
+	private int num,num2; //Numéroté du SITE
+	private int	stock_Max;
 
-	public Site(int i) {
-		this.compterVelo = STOCK_INIT;
-		this.num = i;
-	}
 
 	/**
-	 * Emprunter un v�lo
+	 * Creer objet type Site(nom)
 	 */
-	synchronized void destocker() {
-		System.out.print("avant destockage :");
-		afficher();
-		while (compterVelo == 0) {
+	public Site(int i) {
+		this.compterVelo = STOCK_INIT;
+		this.stock_Max = STOCK_MAX;
+		this.num = i;
+		this.num2 = i+1;
+		System.out.println("Site N° "+Site.this.num2 +" Velos: "+ Site.this.compterVelo+"/" +Site.this.stock_Max);
+	}
+
+
+
+	/**
+	 * Emprunter un vélo
+	 */
+	synchronized void use() {
+		while(compterVelo == 0) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -36,19 +45,14 @@ class Site {
 		}
 		compterVelo--;
 		notifyAll();
-		// System.out.println(" Destockage Site " + Thread.currentThread().getName()+ "
-		// N� " +Site.this.num +" Velos: " + Site.this.compterVelo );
-		System.out.print("apr�s destockage :");
-		afficher();
+		System.out.println("Cliente: "+Thread.currentThread().getName() +" Emprunte - Site N°"+Site.this.num2 +" Velos:"+ Site.this.compterVelo+"/" +Site.this.stock_Max );
 	}
 
 	/**
 	 * Retourner un velo
 	 */
-	synchronized void stocker() {
-		System.out.print("avant stockage :");
-		afficher();
-		while (compterVelo == STOCK_MAX) {
+	synchronized void send () {
+		while(compterVelo == STOCK_MAX ) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -57,48 +61,44 @@ class Site {
 		}
 		compterVelo++;
 		notifyAll();
-		// System.out.println(" Stockage Site " +this.num + " Velos:" +this.compterVelo
-		// );
-		System.out.print("apr�s stockage :");
-		afficher();
+		System.out.println("Cliente:"+Thread.currentThread().getName() +" returne une Vélo Site N°: "  +Site.this.num2 +" Vélos: " + Site.this.compterVelo+  "/"  +Site.this.stock_Max );
 	}
 
 	/**
 	 * Equilibrage
 	 */
 	synchronized void equilibrate(Camion camion) {
-		//System.out.println("Stock courant avant equilibrage: " + this.compterVelo + " du site numero " + Site.this.num);
-		System.out.print("avant equilibrage :");
-		afficher();
-		if (compterVelo > BORNE_SUP) {
-			int veloExedentaire = compterVelo - STOCK_INIT;
+
+		//Si la quantité de vélos dans le site > au borne sup
+		if(compterVelo > BORNE_SUP) {
+
+			int veloExedentaire = compterVelo - STOCK_INIT ;
 			camion.chargerVelo(veloExedentaire);
 			compterVelo = STOCK_INIT;
 
-		} else if (compterVelo < BORNE_INF) {
+		//Si la quantité de vélos dans le site < au borne inf
+		} else if(compterVelo < BORNE_INF) {
 
 			int veloDecharges = STOCK_INIT - compterVelo;
-			if (camion.getVeloTransportes() < veloDecharges) {
-				compterVelo = camion.getVeloTransportes();
+
+			//Si la quantité de vélos dans le camion < pour equilibrer les vélos dans le site
+			if(camion.getVeloTransportes()<veloDecharges){
+				compterVelo =compterVelo+camion.getVeloTransportes();
 				camion.dechargerVelo(camion.getVeloTransportes());
 
+			}else{
+				camion.dechargerVelo(veloDecharges);
+				compterVelo = STOCK_INIT;
 			}
-
 		}
-		notifyAll();
-		// System.out.println("Equilibrate Site " + Thread.currentThread().getName()+ "
-		// Site Num�ro " +Site.this.num + " Velos: " + Site.this.compterVelo );
-		System.out.print("apr�s equilibrage :");
-		afficher();
-
+		System.out.println("Equilibrate Site " + Thread.currentThread().getName()+" Le camion a: "+camion.getVeloTransportes()+" vélos "+"--> Site Numéro: " +Site.this.num2 +  " Velos: "+ Site.this.compterVelo+"/" +Site.this.stock_Max );
 	}
 
-	public void afficher() {
-		System.out.println(Thread.currentThread().getName() + " Site Num�ro " + Site.this.num
-				+ " Stock courant: " + Site.this.compterVelo);
+	/**
+	 * Get NOM du site
+	 */
+	public int getNom (){
+		return num ;
 	}
 
-	static public void main(String[] args) {
-
-	}
 }

@@ -1,38 +1,31 @@
 /**
- * Auteurs Diaby Awa, KArla
- * Date : 12/11/2020
- */
-/**
  * Les objets instances de la classe Cliente representent des clients.
  * Le fonctionnement est le suivant :
  */
 
 public class Client extends Thread {
-	private Site site_depart, site_arriver;
+	private Site site_départ, site_arriver;
+	private int distance_entre_sites; //Canculate distance entre sites
 
-	public Client(Site site_depart, Site site_arriver) {
-		
-		this.site_depart = site_depart;
+	public Client(Site site_départ, Site site_arriver) {
+
+		this.site_départ = site_départ;
 		this.site_arriver = site_arriver;
+		distance_entre_sites = Math.abs(this.site_arriver.getNom() - this.site_départ.getNom());
+
 	}
-	
-	public void emprunter(Site site_depart) {
-		site_depart.destocker();
+
+	@Override
+	public void run() {
+
+		this.site_arriver.use();
+		try { Thread.sleep(100*distance_entre_sites);   //Sleep proportionel au distance entre site de départ et site d'arrive du client
+		} catch(InterruptedException e) {}
+		this.site_départ.send();
+
 	}
-	
-	public void restituer(Site site_arriver) {
-		site_depart.stocker();
-	}
-	
-	 @Override
-	  public void run() {
-		
-		 emprunter(site_depart);
-		 try {Thread.sleep(200);} catch (InterruptedException e) {}
-		 System.out.println("Le client termine de roul�");
-		 restituer(site_arriver);
-			
-	  }
-	 
+
+
+
 
 }

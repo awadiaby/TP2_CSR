@@ -3,18 +3,20 @@
  */
 
 public class Camion extends Thread{
-	
+
 	private Site[] sites;
 	private int veloTransports = 0;
-	private int num_courant = 0;
 
+
+	/**
+	 * CAMION
+	 */
 	public Camion(Site[] sites) {
 		this.sites = sites;
 		this.veloTransports = veloTransports;
 
-		
+
 	}
-	
 
 	/**
 	 * Quantité des vélos au camion
@@ -37,33 +39,23 @@ public class Camion extends Thread{
 		veloTransports -= t;
 	}
 
-	/**
-	 * Valider quand le camion a pas la quantité suffi pour le site
-	 */
-public void se_deplacer() {
-	try {
-		Thread.sleep(40);
-	} catch (InterruptedException e) {
-		num_courant ++;
-		num_courant = num_courant % SystemeEmprunt.NB_SITES;
-		
+
+	@Override
+	public void run() {
+
+	//Le camion est toujours en train d'equilibrer les sites
+		while(true) {
+			for (int i = 0; i <= this.sites.length - 1; i++) {
+				this.sites[i].equilibrate(this);
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+				}
+			}
+		}
 	}
-}
 
 
 
-	 @Override
-	  public void run() {
-		 for(int i = 0; i<= this.sites.length; i++) {
-			 se_deplacer();
-			 this.sites[num_courant].equilibrate(this);
-		 }
-	  }
-	 
-	
-
-	static public void main(String[] args) {
-		
-	}
 
 }
