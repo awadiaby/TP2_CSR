@@ -15,7 +15,7 @@ class Site {
 	static final int BORNE_INF = 2;
 	private int availableBike = 0;
 	private int compterVelo = STOCK_INIT; //Quantité de Velos dans site
-	private int num; //Numéroté du SITE
+	private int num,num2; //Numéroté du SITE
 	private int	stock_Max;
 
 
@@ -26,14 +26,11 @@ class Site {
 		this.compterVelo = STOCK_INIT;
 		this.stock_Max = STOCK_MAX;
 		this.num = i;
-		System.out.println("Site N° "+Site.this.num +" Velos: "+ Site.this.compterVelo+"/" +Site.this.stock_Max);
+		this.num2 = i+1;
+		System.out.println("Site N° "+Site.this.num2 +" Velos: "+ Site.this.compterVelo+"/" +Site.this.stock_Max);
 	}
 
 
-//	public Site(int i) {
-//		this.i = i ;
-//	}
-	// synch rendre la méthode atomique ( un verrou)
 
 	/**
 	 * Emprunter un vélo
@@ -48,7 +45,7 @@ class Site {
 		}
 		compterVelo--;
 		notifyAll();
-		System.out.println("Cliente:"+Thread.currentThread().getName() +" Emprunte - Site N°"+Site.this.num +"Velos:"+ Site.this.compterVelo+"/" +Site.this.stock_Max );
+		System.out.println("Cliente: "+Thread.currentThread().getName() +" Emprunte - Site N°"+Site.this.num2 +" Velos:"+ Site.this.compterVelo+"/" +Site.this.stock_Max );
 	}
 
 	/**
@@ -64,23 +61,27 @@ class Site {
 		}
 		compterVelo++;
 		notifyAll();
-		System.out.println("Cliente:"+Thread.currentThread().getName() +" Donne une Vélo Site N°: "  +Site.this.num +" Velos: " + Site.this.compterVelo+  "/"  +Site.this.stock_Max );
+		System.out.println("Cliente:"+Thread.currentThread().getName() +" returne une Vélo Site N°: "  +Site.this.num2 +" Vélos: " + Site.this.compterVelo+  "/"  +Site.this.stock_Max );
 	}
 
 	/**
-	 * Equilibrage  DOUTE ******
+	 * Equilibrage
 	 */
 	synchronized void equilibrate(Camion camion) {
-		System.out.println("Compter Velo"+ compterVelo);
+
+		//Si la quantité de vélos dans le site > au borne sup
 		if(compterVelo > BORNE_SUP) {
 
 			int veloExedentaire = compterVelo - STOCK_INIT ;
 			camion.chargerVelo(veloExedentaire);
 			compterVelo = STOCK_INIT;
 
+		//Si la quantité de vélos dans le site < au borne inf
 		} else if(compterVelo < BORNE_INF) {
 
 			int veloDecharges = STOCK_INIT - compterVelo;
+
+			//Si la quantité de vélos dans le camion < pour equilibrer les vélos dans le site
 			if(camion.getVeloTransportes()<veloDecharges){
 				compterVelo =compterVelo+camion.getVeloTransportes();
 				camion.dechargerVelo(camion.getVeloTransportes());
@@ -90,21 +91,14 @@ class Site {
 				compterVelo = STOCK_INIT;
 			}
 		}
-		System.out.println("Equilibrate Site " + Thread.currentThread().getName()+" Le camion a: "+camion.getVeloTransportes()+" Site Numéro: " +Site.this.num +  " Velos: "+ Site.this.compterVelo+"/" +Site.this.stock_Max );
+		System.out.println("Equilibrate Site " + Thread.currentThread().getName()+" Le camion a: "+camion.getVeloTransportes()+" vélos "+"--> Site Numéro: " +Site.this.num2 +  " Velos: "+ Site.this.compterVelo+"/" +Site.this.stock_Max );
 	}
 
+	/**
+	 * Get NOM du site
+	 */
 	public int getNom (){
 		return num ;
 	}
 
-	static public void main(String[] args) {
-
-		Site Site1 = new Site(1);
-		Site Site2 = new Site(2);
-
-		Site1.use();
-		Site2.send();
-
-
-	}
 }

@@ -12,7 +12,7 @@ class SystemeEmprunt {
 	/* Constantes */
 
 	static final int NB_SITES = 5;
-	static final int MAX_CLIENTS = 10;
+	static final int MAX_CLIENTS = 100;
 
 
 	/* Attributs */
