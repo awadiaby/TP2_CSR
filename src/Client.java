@@ -28,13 +28,8 @@ public class Client extends Thread {
 	  public void run() {
 		
 		 emprunter(site_depart);
-		 try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			System.out.println("Le client termine de roulé");
-			
-		}
-		
+		 try {Thread.sleep(200);} catch (InterruptedException e) {}
+		 System.out.println("Le client termine de roulé");
 		 restituer(site_arriver);
 			
 	  }
